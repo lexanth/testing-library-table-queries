@@ -1,6 +1,6 @@
 {
   "name": "testing-library-table-queries",
-  "version": "1.0.0",
+  "version": "0.1.1",
   "description": "Additional testing-library queries for querying tables like a user",
   "author": "lexanth",
   "license": "MIT",
@@ -11,6 +11,7 @@
     "node": ">=10"
   },
   "scripts": {
+    "prebuild": "rm -rf dist",
     "build": "microbundle-crl --no-compress --format cjs",
     "start": "microbundle-crl watch --no-compress --format cjs",
     "prepublish": "run-s build",
