@@ -1,0 +1,88 @@
+import React from 'react'
+
+export const SimpleTable = () => {
+  return (
+    <table>
+      <thead>
+        <tr>
+          <th>
+            First Name
+          </th>
+          <th>
+            Last Name
+          </th>
+          <th>
+            Age
+          </th>
+          <th>
+            Visits
+          </th>
+          <th>
+            Status
+          </th>
+          <th>
+            Profile Progress
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>cave</td>
+          <td>ants</td>
+          <td>23</td>
+          <td>12</td>
+          <td>complicated</td>
+          <td>52</td>
+        </tr>
+        <tr>
+          <td>midnight</td>
+          <td>sense</td>
+          <td>22</td>
+          <td>25</td>
+          <td>complicated</td>
+          <td>24</td>
+        </tr>
+        <tr>
+          <td>wish</td>
+          <td>birds</td>
+          <td>7</td>
+          <td>29</td>
+          <td>single</td>
+          <td>29</td>
+        </tr>
+        <tr>
+          <td>reason</td>
+          <td>guest</td>
+          <td>29</td>
+          <td>55</td>
+          <td>single</td>
+          <td>28</td>
+        </tr>
+        <tr>
+          <td>trouble</td>
+          <td>skirt</td>
+          <td>15</td>
+          <td>74</td>
+          <td>relationship</td>
+          <td>67</td>
+        </tr>
+        <tr>
+          <td>knot</td>
+          <td>strategy</td>
+          <td>14</td>
+          <td>18</td>
+          <td>complicated</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>push</td>
+          <td>football</td>
+          <td>23</td>
+          <td>25</td>
+          <td>complicated</td>
+          <td>95</td>
+        </tr>
+      </tbody>
+    </table>
+  )
+}
