@@ -20,3 +20,6 @@ dist
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+**/__fixtures__/**/*.d.ts
+**/__testsupport__/**/*.d.ts
+*.test.d.ts
