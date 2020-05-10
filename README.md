@@ -1,8 +1,8 @@
-# table-queries
+# testing-library-table-queries
 
 > Additional testing-library queries for querying tables like a user
 
-[![NPM](https://img.shields.io/npm/v/testing-library-table-queries.svg)](https://www.npmjs.com/package/table-queries)
+[![NPM](https://img.shields.io/npm/v/testing-library-table-queries.svg)](https://www.npmjs.com/package/testing-library-table-queries)
 
 ## Install
 
@@ -11,6 +11,7 @@ yarn add -D testing-library-table-queries
 ```
 
 ## Usage
+_These examples all use `@testing-library/react`, but there isn't anything tying use of this library to that, it should work with anything `@testing-library/dom`-based._
 ### Inline
 ```js
 import { getRowByFirstCellText, getAllCells } from 'testing-library-table-queries'
