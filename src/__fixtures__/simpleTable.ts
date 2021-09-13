@@ -15,7 +15,9 @@ export const simpleTable = `
             Visits
           </th>
           <th id="header-cell-5">
-            Status
+            <div>
+              Status
+            </div>
           </th>
           <th id="header-cell-6">
             Profile Progress
@@ -32,7 +34,7 @@ export const simpleTable = `
           <td id="body-cell-6">52</td>
         </tr>
         <tr id="body-row-2">
-          <td id="body-cell-7">midnight</td>
+          <td id="body-cell-7"><div>midnight</div></td>
           <td id="body-cell-8">sense</td>
           <td id="body-cell-9">22</td>
           <td id="body-cell-10">25</td>

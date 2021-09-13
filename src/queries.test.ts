@@ -136,6 +136,21 @@ describe('queries', () => {
       'body-cell-33',
       'body-cell-39'
     ])
+    const statusCells = queries.getAllColumnCellsByHeaderText(
+      container,
+      'Status'
+    )
+    expect(statusCells).toHaveLength(8)
+    expect(statusCells.map((cell) => cell.id)).toEqual([
+      'header-cell-5',
+      'body-cell-5',
+      'body-cell-11',
+      'body-cell-17',
+      'body-cell-23',
+      'body-cell-29',
+      'body-cell-35',
+      'body-cell-41'
+    ])
   })
 
   it('should find rows by the first cell text', () => {
@@ -151,6 +166,9 @@ describe('queries', () => {
     )
     expect(queries.getRowByFirstCellText(container, 'First Name').id).toEqual(
       'header-row'
+    )
+    expect(queries.getRowByFirstCellText(container, 'midnight').id).toEqual(
+      'body-row-2'
     )
   })
 
