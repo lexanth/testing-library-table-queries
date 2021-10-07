@@ -22,7 +22,7 @@ export const getColumnIndexByHeaderText = (
 
   const cellIndex = headerRowToUse.findIndex((cell) => {
     // TODO - allow normaliser to be overridden
-    return getDefaultNormalizer()(getNodeText(cell)) === textContent
+    return getDefaultNormalizer()(cell.textContent) === textContent
   })
   if (cellIndex === -1) {
     return -1
