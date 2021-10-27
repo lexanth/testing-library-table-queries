@@ -1,6 +1,6 @@
 {
   "name": "testing-library-table-queries",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Additional testing-library queries for querying tables like a user",
   "author": "lexanth",
   "license": "MIT",
