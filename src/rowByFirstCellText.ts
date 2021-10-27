@@ -1,7 +1,4 @@
-import {
-  queryHelpers,
-  getDefaultNormalizer
-} from '@testing-library/dom'
+import { queryHelpers, getDefaultNormalizer } from '@testing-library/dom'
 import { queryAllRows } from './rows'
 import { queryAllCells } from './cells'
 
@@ -17,7 +14,9 @@ function queryAllRowsByFirstCellText(
     }
 
     // TODO - make normaliser customisable, support textmatch
-    return getDefaultNormalizer()(cellsInRow[0].textContent) === textContent
+    return (
+      getDefaultNormalizer()(cellsInRow[0].textContent || '') === textContent
+    )
   })
 }
 

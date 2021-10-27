@@ -1,4 +1,4 @@
-import { getNodeText, getDefaultNormalizer } from '@testing-library/dom'
+import { getDefaultNormalizer } from '@testing-library/dom'
 
 import { queryAllCells } from '../cells'
 import { queryAllRowsByRowgroupType } from '../rowsByRowgroup'
@@ -22,7 +22,7 @@ export const getColumnIndexByHeaderText = (
 
   const cellIndex = headerRowToUse.findIndex((cell) => {
     // TODO - allow normaliser to be overridden
-    return getDefaultNormalizer()(cell.textContent) === textContent
+    return getDefaultNormalizer()(cell.textContent || '') === textContent
   })
   if (cellIndex === -1) {
     return -1
