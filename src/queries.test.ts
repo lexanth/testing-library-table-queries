@@ -3,6 +3,10 @@ import * as queries from './'
 import { simpleTable } from './__fixtures__/simpleTable'
 import { colspanTable } from './__fixtures__/colspanTable'
 
+const LIB_VERSION = process.env.LIB_VERSION
+  ? parseInt(process.env.LIB_VERSION, 10)
+  : 7
+
 describe('queries', () => {
   it('should return null for empty queries', () => {
     const container = render('<div />')
@@ -37,77 +41,164 @@ describe('queries', () => {
   it('should throw useful error messages for no item found', () => {
     const container = render('<div />')
 
-    expect(() => queries.getRow(container)).toThrowErrorMatchingInlineSnapshot(`
+    // @testing-library/dom@^8 updated the format of reported errors
+    // So we maintain parallel versions of these snapshots for each
+    if (LIB_VERSION >= 8) {
+      expect(() => queries.getRow(container))
+        .toThrowErrorMatchingInlineSnapshot(`
+"Found no rows
+
+Ignored nodes: comments, script, style
+[36m<div>[39m
+  [36m<div />[39m
+[36m</div>[39m"
+`)
+      expect(() => queries.getCell(container))
+        .toThrowErrorMatchingInlineSnapshot(`
+"Found no cells
+
+Ignored nodes: comments, script, style
+[36m<div>[39m
+  [36m<div />[39m
+[36m</div>[39m"
+`)
+      expect(() => queries.getCellByRowAndColumnHeaders(container, 'A', 'B'))
+        .toThrowErrorMatchingInlineSnapshot(`
+"Found no rows with A in the first column and B in the header
+
+Ignored nodes: comments, script, style
+[36m<div>[39m
+  [36m<div />[39m
+[36m</div>[39m"
+`)
+      expect(() => queries.getCellByRowAndColumnHeaders(container, 'A', 'B', 1))
+        .toThrowErrorMatchingInlineSnapshot(`
+"Found no rows with A in the first column and B in the 2nd header
+
+Ignored nodes: comments, script, style
+[36m<div>[39m
+  [36m<div />[39m
+[36m</div>[39m"
+`)
+      expect(() => queries.getColumnCellByHeaderText(container, 'A'))
+        .toThrowErrorMatchingInlineSnapshot(`
+"Found no rows with A in the header
+
+Ignored nodes: comments, script, style
+[36m<div>[39m
+  [36m<div />[39m
+[36m</div>[39m"
+`)
+      expect(() => queries.getColumnCellByHeaderText(container, 'A', 1))
+        .toThrowErrorMatchingInlineSnapshot(`
+"Found no rows with A in the 2nd header
+
+Ignored nodes: comments, script, style
+[36m<div>[39m
+  [36m<div />[39m
+[36m</div>[39m"
+`)
+      expect(() => queries.getRowByFirstCellText(container, 'A'))
+        .toThrowErrorMatchingInlineSnapshot(`
+"Found no rows with A in the first cell
+
+Ignored nodes: comments, script, style
+[36m<div>[39m
+  [36m<div />[39m
+[36m</div>[39m"
+`)
+      expect(() => queries.getByRowgroupType(container, 'thead'))
+        .toThrowErrorMatchingInlineSnapshot(`
+"Found no thead elements
+
+Ignored nodes: comments, script, style
+[36m<div>[39m
+  [36m<div />[39m
+[36m</div>[39m"
+`)
+      expect(() => queries.getRowByRowgroupType(container, 'thead'))
+        .toThrowErrorMatchingInlineSnapshot(`
+"Found no rows within thead elements
+
+Ignored nodes: comments, script, style
+[36m<div>[39m
+  [36m<div />[39m
+[36m</div>[39m"
+`)
+    } else {
+      expect(() => queries.getRow(container))
+        .toThrowErrorMatchingInlineSnapshot(`
 "Found no rows
 
 [36m<div>[39m
   [36m<div />[39m
 [36m</div>[39m"
 `)
-    expect(() => queries.getCell(container))
-      .toThrowErrorMatchingInlineSnapshot(`
+      expect(() => queries.getCell(container))
+        .toThrowErrorMatchingInlineSnapshot(`
 "Found no cells
 
 [36m<div>[39m
   [36m<div />[39m
 [36m</div>[39m"
 `)
-    expect(() => queries.getCellByRowAndColumnHeaders(container, 'A', 'B'))
-      .toThrowErrorMatchingInlineSnapshot(`
+      expect(() => queries.getCellByRowAndColumnHeaders(container, 'A', 'B'))
+        .toThrowErrorMatchingInlineSnapshot(`
 "Found no rows with A in the first column and B in the header
 
 [36m<div>[39m
   [36m<div />[39m
 [36m</div>[39m"
 `)
-    expect(() => queries.getCellByRowAndColumnHeaders(container, 'A', 'B', 1))
-      .toThrowErrorMatchingInlineSnapshot(`
+      expect(() => queries.getCellByRowAndColumnHeaders(container, 'A', 'B', 1))
+        .toThrowErrorMatchingInlineSnapshot(`
 "Found no rows with A in the first column and B in the 2nd header
 
 [36m<div>[39m
   [36m<div />[39m
 [36m</div>[39m"
 `)
-    expect(() => queries.getColumnCellByHeaderText(container, 'A'))
-      .toThrowErrorMatchingInlineSnapshot(`
+      expect(() => queries.getColumnCellByHeaderText(container, 'A'))
+        .toThrowErrorMatchingInlineSnapshot(`
 "Found no rows with A in the header
 
 [36m<div>[39m
   [36m<div />[39m
 [36m</div>[39m"
 `)
-    expect(() => queries.getColumnCellByHeaderText(container, 'A', 1))
-      .toThrowErrorMatchingInlineSnapshot(`
+      expect(() => queries.getColumnCellByHeaderText(container, 'A', 1))
+        .toThrowErrorMatchingInlineSnapshot(`
 "Found no rows with A in the 2nd header
 
 [36m<div>[39m
   [36m<div />[39m
 [36m</div>[39m"
 `)
-    expect(() => queries.getRowByFirstCellText(container, 'A'))
-      .toThrowErrorMatchingInlineSnapshot(`
+      expect(() => queries.getRowByFirstCellText(container, 'A'))
+        .toThrowErrorMatchingInlineSnapshot(`
 "Found no rows with A in the first cell
 
 [36m<div>[39m
   [36m<div />[39m
 [36m</div>[39m"
 `)
-    expect(() => queries.getByRowgroupType(container, 'thead'))
-      .toThrowErrorMatchingInlineSnapshot(`
+      expect(() => queries.getByRowgroupType(container, 'thead'))
+        .toThrowErrorMatchingInlineSnapshot(`
 "Found no thead elements
 
 [36m<div>[39m
   [36m<div />[39m
 [36m</div>[39m"
 `)
-    expect(() => queries.getRowByRowgroupType(container, 'thead'))
-      .toThrowErrorMatchingInlineSnapshot(`
+      expect(() => queries.getRowByRowgroupType(container, 'thead'))
+        .toThrowErrorMatchingInlineSnapshot(`
 "Found no rows within thead elements
 
 [36m<div>[39m
   [36m<div />[39m
 [36m</div>[39m"
 `)
+    }
   })
 
   it('should find cells', () => {
