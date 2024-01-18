@@ -23,3 +23,20 @@ jobs:
       - name: Install dependencies
         run: yarn --frozen-lockfile
       - run: yarn test
+  test-testing-library-versions:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        testing-library-version: [8, 9]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+      - name: Upgrade @testing-library/dom to ${{ matrix.testing-library-version }}
+        run: yarn add -D @testing-library/dom@${{ matrix.testing-library-version }}
+      - run: LIB_VERSION=${{matrix.testing-library-version}} yarn test
