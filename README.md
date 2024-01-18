@@ -157,8 +157,7 @@ See [example tests](./example/src/SimpleTable.test.js)
 
 TODO:
 
-- Set up CI
-- Set up changelong stuff
+- Set up changelog stuff
 
 ### Publishing
 
