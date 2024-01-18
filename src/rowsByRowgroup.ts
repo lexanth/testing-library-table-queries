@@ -1,5 +1,5 @@
 import { queryHelpers } from '@testing-library/dom'
-import { RowGroup } from './types'
+import type { RowGroup } from './types'
 
 function queryAllRowsByRowgroupType(
   container: HTMLElement,
@@ -10,9 +10,9 @@ function queryAllRowsByRowgroupType(
   )
 }
 
-const getMultipleError = (_c: HTMLElement, rowgroupTagName: RowGroup) =>
+const getMultipleError = (_c: Element | null, rowgroupTagName: RowGroup) =>
   `Found multiple rows within ${rowgroupTagName} elements`
-const getMissingError = (_c: HTMLElement, rowgroupTagName: RowGroup) =>
+const getMissingError = (_c: Element | null, rowgroupTagName: RowGroup) =>
   `Found no rows within ${rowgroupTagName} elements`
 
 const [

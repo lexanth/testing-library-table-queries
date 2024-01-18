@@ -2,6 +2,7 @@ import { queryHelpers } from '@testing-library/dom'
 import { queryAllRowsByFirstCellText } from './rowByFirstCellText'
 import { getColumnIndexByHeaderText } from './utils/columnIndexByHeaderText'
 import { getCellInRowByIndex } from './utils/cellInRowByIndex'
+import { nthHeaderError } from './utils/nthHeaderError'
 
 function queryAllCellsByRowAndColumnHeaders(
   container: HTMLElement,
@@ -23,17 +24,23 @@ function queryAllCellsByRowAndColumnHeaders(
 }
 
 const getMultipleError = (
-  _c: HTMLElement,
+  _c: Element | null,
   rowHeaderText: string,
-  columnheaderText: string
+  columnheaderText: string,
+  headerRowIndex = 0
 ) =>
-  `Found multiple cells with ${rowHeaderText} in the first column and ${columnheaderText} in the header`
+  `Found multiple cells with ${rowHeaderText} in the first column and ${columnheaderText} in the ${nthHeaderError(
+    headerRowIndex
+  )}`
 const getMissingError = (
-  _c: HTMLElement,
+  _c: Element | null,
   rowHeaderText: string,
-  columnheaderText: string
+  columnheaderText: string,
+  headerRowIndex = 0
 ) =>
-  `Found no rows with ${rowHeaderText} in the first column and ${columnheaderText} in the header`
+  `Found no rows with ${rowHeaderText} in the first column and ${columnheaderText} in the ${nthHeaderError(
+    headerRowIndex
+  )}`
 
 const [
   queryCellByRowAndColumnHeaders,
@@ -41,7 +48,7 @@ const [
   getCellByRowAndColumnHeaders,
   findAllCellsByRowAndColumnHeaders,
   findCellByRowAndColumnHeaders
-] = queryHelpers.buildQueries<[string, string, number | undefined]>(
+] = queryHelpers.buildQueries(
   queryAllCellsByRowAndColumnHeaders,
   getMultipleError,
   getMissingError

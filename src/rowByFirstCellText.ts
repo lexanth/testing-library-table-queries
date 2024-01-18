@@ -20,9 +20,9 @@ function queryAllRowsByFirstCellText(
   })
 }
 
-const getMultipleError = (_c: HTMLElement, textContent: string) =>
+const getMultipleError = (_c: Element | null, textContent: string) =>
   `Found multiple rows with ${textContent} in the first cell`
-const getMissingError = (_c: HTMLElement, textContent: string) =>
+const getMissingError = (_c: Element | null, textContent: string) =>
   `Found no rows with ${textContent} in the first cell`
 
 const [

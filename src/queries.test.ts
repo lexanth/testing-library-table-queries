@@ -60,9 +60,25 @@ describe('queries', () => {
   [36m<div />[39m
 [36m</div>[39m"
 `)
+    expect(() => queries.getCellByRowAndColumnHeaders(container, 'A', 'B', 1))
+      .toThrowErrorMatchingInlineSnapshot(`
+"Found no rows with A in the first column and B in the 2nd header
+
+[36m<div>[39m
+  [36m<div />[39m
+[36m</div>[39m"
+`)
     expect(() => queries.getColumnCellByHeaderText(container, 'A'))
       .toThrowErrorMatchingInlineSnapshot(`
 "Found no rows with A in the header
+
+[36m<div>[39m
+  [36m<div />[39m
+[36m</div>[39m"
+`)
+    expect(() => queries.getColumnCellByHeaderText(container, 'A', 1))
+      .toThrowErrorMatchingInlineSnapshot(`
+"Found no rows with A in the 2nd header
 
 [36m<div>[39m
   [36m<div />[39m
