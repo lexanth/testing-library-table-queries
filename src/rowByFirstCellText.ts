@@ -4,7 +4,7 @@ import { queryAllCells } from './cells'
 
 function queryAllRowsByFirstCellText(
   container: HTMLElement,
-  textContent: string
+  textQuery: string | RegExp,
 ) {
   const rows = queryAllRows(container)
   return rows.filter((row) => {
@@ -13,17 +13,29 @@ function queryAllRowsByFirstCellText(
       return false
     }
 
-    // TODO - make normaliser customisable, support textmatch
-    return (
-      getDefaultNormalizer()(cellsInRow[0].textContent || '') === textContent
-    )
+    const cellNormalizedTextContent = getDefaultNormalizer()(cellsInRow[0].textContent || '');
+
+    if (typeof textQuery === 'string') {
+      return cellNormalizedTextContent === textQuery
+    }
+
+    return textQuery.test(cellNormalizedTextContent)
   })
 }
 
-const getMultipleError = (_c: Element | null, textContent: string) =>
-  `Found multiple rows with ${textContent} in the first cell`
-const getMissingError = (_c: Element | null, textContent: string) =>
-  `Found no rows with ${textContent} in the first cell`
+const getMultipleError = (_c: Element | null, textQuery: string | RegExp) => {
+  if (typeof textQuery === 'string') {
+    return `Found multiple rows with ${textQuery} in the first cell`
+  }
+  return `Found multiple rows matching ${textQuery} in the first cell`
+}
+  
+const getMissingError = (_c: Element | null, textQuery: string | RegExp) => {
+  if (typeof textQuery === 'string') {
+    return `Found no rows with ${textQuery} in the first cell`
+  }
+  return `Found no rows matching ${textQuery} in the first cell`
+}
 
 const [
   queryRowByFirstCellText,
@@ -31,7 +43,7 @@ const [
   getRowByFirstCellText,
   findAllRowsByFirstCellText,
   findRowByFirstCellText
-] = queryHelpers.buildQueries(
+] = queryHelpers.buildQueries<[string | RegExp]>(
   queryAllRowsByFirstCellText,
   getMultipleError,
   getMissingError

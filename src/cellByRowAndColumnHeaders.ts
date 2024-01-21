@@ -6,15 +6,15 @@ import { nthHeaderError } from './utils/nthHeaderError'
 
 function queryAllCellsByRowAndColumnHeaders(
   container: HTMLElement,
-  rowHeaderText: string,
-  columnheaderText: string,
+  rowHeaderTextQuery: string | RegExp,
+  columnheaderTextQuery: string | RegExp,
   headerRowIndex = 0
 ) {
-  const rows = queryAllRowsByFirstCellText(container, rowHeaderText)
+  const rows = queryAllRowsByFirstCellText(container, rowHeaderTextQuery)
 
   const columnIndex = getColumnIndexByHeaderText(
     container,
-    columnheaderText,
+    columnheaderTextQuery,
     headerRowIndex
   )
 
@@ -25,17 +25,18 @@ function queryAllCellsByRowAndColumnHeaders(
 
 const getMultipleError = (
   _c: Element | null,
-  rowHeaderText: string,
-  columnheaderText: string,
+  rowHeaderText: string | RegExp,
+  columnheaderText: string | RegExp,
   headerRowIndex = 0
 ) =>
   `Found multiple cells with ${rowHeaderText} in the first column and ${columnheaderText} in the ${nthHeaderError(
     headerRowIndex
   )}`
+
 const getMissingError = (
   _c: Element | null,
-  rowHeaderText: string,
-  columnheaderText: string,
+  rowHeaderText: string | RegExp,
+  columnheaderText: string | RegExp,
   headerRowIndex = 0
 ) =>
   `Found no rows with ${rowHeaderText} in the first column and ${columnheaderText} in the ${nthHeaderError(

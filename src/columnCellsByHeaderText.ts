@@ -6,12 +6,12 @@ import { nthHeaderError } from './utils/nthHeaderError'
 
 function queryAllColumnCellsByHeaderText(
   container: HTMLElement,
-  textContent: string,
+  textQuery: string | RegExp,
   headerRowIndex = 0
 ) {
   const cellIndex = getColumnIndexByHeaderText(
     container,
-    textContent,
+    textQuery,
     headerRowIndex
   )
 
@@ -24,18 +24,33 @@ function queryAllColumnCellsByHeaderText(
 
 const getMultipleError = (
   _c: Element | null,
-  textContent: string,
+  textQuery: string | RegExp,
   headerRowIndex = 0
-) =>
-  `Found multiple cells with ${textContent} in the ${nthHeaderError(
+) => {
+  if (typeof textQuery === 'string') {
+    return `Found multiple cells with ${textQuery} in the ${nthHeaderError(
+      headerRowIndex
+    )}`
+  }
+  return `Found multiple cells matching ${textQuery} in the ${nthHeaderError(
     headerRowIndex
   )}`
+}
+
 const getMissingError = (
   _c: Element | null,
-  textContent: string,
+  textQuery: string | RegExp,
   headerRowIndex = 0
-) =>
-  `Found no rows with ${textContent} in the ${nthHeaderError(headerRowIndex)}`
+) => {
+  if (typeof textQuery === 'string') {
+    return `Found no rows with ${textQuery} in the ${nthHeaderError(
+      headerRowIndex
+    )}`
+  }
+  return `Found no rows matching ${textQuery} in the ${nthHeaderError(
+    headerRowIndex
+  )}`
+}
 
 const [
   queryColumnCellByHeaderText,

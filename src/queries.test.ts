@@ -206,77 +206,174 @@ Ignored nodes: comments, script, style
     expect(queries.getAllCells(container)).toHaveLength(48)
   })
 
-  it('should find cells by row and column headings', () => {
-    const container = render(simpleTable)
-    expect(
-      queries.getCellByRowAndColumnHeaders(container, 'trouble', 'Status').id
-    ).toEqual('body-cell-29')
-    expect(
-      queries.getCellByRowAndColumnHeaders(container, 'reason', 'Age').id
-    ).toEqual('body-cell-21')
-    expect(
-      queries.queryCellByRowAndColumnHeaders(container, 'NOT A ROW', 'Status')
-    ).toBeNull()
-    expect(
-      queries.queryCellByRowAndColumnHeaders(
+  describe('should find cells by row and column headings', () => {
+    it('using exact test match', () => {
+      const container = render(simpleTable)
+      expect(
+        queries.getCellByRowAndColumnHeaders(container, 'trouble', 'Status').id
+      ).toEqual('body-cell-29')
+      expect(
+        queries.getCellByRowAndColumnHeaders(container, 'reason', 'Age').id
+      ).toEqual('body-cell-21')
+      expect(
+        queries.queryCellByRowAndColumnHeaders(container, 'NOT A ROW', 'Status')
+      ).toBeNull()
+      expect(
+        queries.queryCellByRowAndColumnHeaders(
+          container,
+          'trouble',
+          'Not a column'
+        )
+      ).toBeNull()
+    })
+    it('using a regex', () => {
+      const container = render(simpleTable)
+      expect(
+        queries.getCellByRowAndColumnHeaders(container, /trouble/, /Status/).id
+      ).toEqual('body-cell-29')
+      expect(
+        queries.getCellByRowAndColumnHeaders(container, /reason/, /Age/).id
+      ).toEqual('body-cell-21')
+      expect(
+        queries.queryCellByRowAndColumnHeaders(container, /NOT A ROW/, /Status/)
+      ).toBeNull()
+      expect(
+        queries.queryCellByRowAndColumnHeaders(
+          container,
+          /trouble/,
+          /Not a column/
+        )
+      ).toBeNull()
+      expect(
+        queries.queryCellByRowAndColumnHeaders(container, /.*/, /Not a column/)
+      ).toBeNull()
+      expect(
+        queries.queryAllCellsByRowAndColumnHeaders(container, /.*/, /Age/)
+      ).toHaveLength(8)
+      expect(
+        queries.queryAllCellsByRowAndColumnHeaders(container, /reason/, /.*/)
+      ).toHaveLength(1)
+      expect(
+        queries.queryAllCellsByRowAndColumnHeaders(container, /.*/, /.*/)
+      ).toHaveLength(8)
+    })
+  })
+
+  describe('should find column cells by header text', () => {
+    it('using exact test match', () => {
+      const container = render(simpleTable)
+      expect(
+        queries.queryAllColumnCellsByHeaderText(container, 'NOT A COLUMN')
+      ).toHaveLength(0)
+      const ageCells = queries.getAllColumnCellsByHeaderText(container, 'Age')
+      expect(ageCells).toHaveLength(8)
+      expect(ageCells.map((cell) => cell.id)).toEqual([
+        'header-cell-3',
+        'body-cell-3',
+        'body-cell-9',
+        'body-cell-15',
+        'body-cell-21',
+        'body-cell-27',
+        'body-cell-33',
+        'body-cell-39'
+      ])
+      const statusCells = queries.getAllColumnCellsByHeaderText(
         container,
-        'trouble',
-        'Not a column'
+        /Status/
       )
-    ).toBeNull()
+      expect(statusCells).toHaveLength(8)
+      expect(statusCells.map((cell) => cell.id)).toEqual([
+        'header-cell-5',
+        'body-cell-5',
+        'body-cell-11',
+        'body-cell-17',
+        'body-cell-23',
+        'body-cell-29',
+        'body-cell-35',
+        'body-cell-41'
+      ])
+    })
+
+    it('using a regex match', () => {
+      const container = render(simpleTable)
+      expect(
+        queries.queryAllColumnCellsByHeaderText(container, /NOT A COLUMN/)
+      ).toHaveLength(0)
+      expect(
+        queries.queryAllColumnCellsByHeaderText(container, /.*/)
+      ).toHaveLength(8)
+      const ageCells = queries.getAllColumnCellsByHeaderText(container, /Age/)
+      expect(ageCells).toHaveLength(8)
+      expect(ageCells.map((cell) => cell.id)).toEqual([
+        'header-cell-3',
+        'body-cell-3',
+        'body-cell-9',
+        'body-cell-15',
+        'body-cell-21',
+        'body-cell-27',
+        'body-cell-33',
+        'body-cell-39'
+      ])
+      const statusCells = queries.getAllColumnCellsByHeaderText(
+        container,
+        /Status/
+      )
+      expect(statusCells).toHaveLength(8)
+      expect(statusCells.map((cell) => cell.id)).toEqual([
+        'header-cell-5',
+        'body-cell-5',
+        'body-cell-11',
+        'body-cell-17',
+        'body-cell-23',
+        'body-cell-29',
+        'body-cell-35',
+        'body-cell-41'
+      ])
+    })
   })
 
-  it('should find column cells by header text', () => {
-    const container = render(simpleTable)
-    expect(
-      queries.queryAllColumnCellsByHeaderText(container, 'NOT A COLUMN')
-    ).toHaveLength(0)
-    const ageCells = queries.getAllColumnCellsByHeaderText(container, 'Age')
-    expect(ageCells).toHaveLength(8)
-    expect(ageCells.map((cell) => cell.id)).toEqual([
-      'header-cell-3',
-      'body-cell-3',
-      'body-cell-9',
-      'body-cell-15',
-      'body-cell-21',
-      'body-cell-27',
-      'body-cell-33',
-      'body-cell-39'
-    ])
-    const statusCells = queries.getAllColumnCellsByHeaderText(
-      container,
-      'Status'
-    )
-    expect(statusCells).toHaveLength(8)
-    expect(statusCells.map((cell) => cell.id)).toEqual([
-      'header-cell-5',
-      'body-cell-5',
-      'body-cell-11',
-      'body-cell-17',
-      'body-cell-23',
-      'body-cell-29',
-      'body-cell-35',
-      'body-cell-41'
-    ])
-  })
+  describe('should find rows by the first cell text', () => {
+    it('using exact text match', () => {
+      const container = render(simpleTable)
+      expect(
+        queries.queryAllRowsByFirstCellText(container, 'NOT A ROW')
+      ).toHaveLength(0)
+      expect(
+        queries.getAllRowsByFirstCellText(container, 'reason')
+      ).toHaveLength(1)
+      expect(queries.getRowByFirstCellText(container, 'reason').id).toEqual(
+        'body-row-4'
+      )
+      expect(queries.getRowByFirstCellText(container, 'First Name').id).toEqual(
+        'header-row'
+      )
+      expect(queries.getRowByFirstCellText(container, 'midnight').id).toEqual(
+        'body-row-2'
+      )
+    })
 
-  it('should find rows by the first cell text', () => {
-    const container = render(simpleTable)
-    expect(
-      queries.queryAllRowsByFirstCellText(container, 'NOT A ROW')
-    ).toHaveLength(0)
-    expect(queries.getAllRowsByFirstCellText(container, 'reason')).toHaveLength(
-      1
-    )
-    expect(queries.getRowByFirstCellText(container, 'reason').id).toEqual(
-      'body-row-4'
-    )
-    expect(queries.getRowByFirstCellText(container, 'First Name').id).toEqual(
-      'header-row'
-    )
-    expect(queries.getRowByFirstCellText(container, 'midnight').id).toEqual(
-      'body-row-2'
-    )
+    it('using a regex', () => {
+      const container = render(simpleTable)
+      expect(
+        queries.queryAllRowsByFirstCellText(
+          container,
+          /this-regex-has-no-match/
+        )
+      ).toHaveLength(0)
+      expect(
+        queries.getAllRowsByFirstCellText(container, /reas*/)
+      ).toHaveLength(1)
+      expect(queries.getAllRowsByFirstCellText(container, /.*/)).toHaveLength(8)
+      expect(queries.getRowByFirstCellText(container, 'reason').id).toEqual(
+        'body-row-4'
+      )
+      expect(queries.getRowByFirstCellText(container, 'First Name').id).toEqual(
+        'header-row'
+      )
+      expect(queries.getRowByFirstCellText(container, 'midnight').id).toEqual(
+        'body-row-2'
+      )
+    })
   })
 
   it('should find rowgroups', () => {
