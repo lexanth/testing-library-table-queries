@@ -113,7 +113,11 @@ expect(getRowByFirstCellText('John Smith')).toBeVisible()
 fireEvent.click(within(getRowByFirstCellText('John Smith')).getByText('Delete'))
 ```
 
-Users will generally find rows by scanning the content in the first column, then reading across the row. This finds that row (rather than just the first cell), which can then be used to identify other items within that row.
+Users will generally find rows by scanning the content in the first column, then reading across the row. This finds that row (rather than just the first cell), which can then be used to identify other items within that row. You can also use regular expression matching instead of looking for an exact text:
+
+```js
+expect(getRowByFirstCellText(/John Smith/)).toBeVisible()
+```
 
 ### Column cells by header text
 
@@ -125,7 +129,7 @@ ageCells.forEach((cell, index) => {
 })
 ```
 
-Returns an array of cells based on the text in the column header. Note that there is no DOM 'column' element, so it is an array of cells. If multiple columns have the same header text, the first is used. Optionally, this also supports an index (starting from zero) to support having multiple header rows:
+Returns an array of cells based on the text (or a regex) in the column header. Note that there is no DOM 'column' element, so it is an array of cells. If multiple columns have the same header text, the first is used. Optionally, this also supports an index (starting from zero) to support having multiple header rows:
 
 ```js
 const { getAllColumnCellsByHeaderText } = render(<MyTable />)
@@ -141,7 +145,7 @@ expect(getCellByRowAndColumnHeaders('John Smith', 'Age')).toHaveTextContent(
 )
 ```
 
-If a user is trying to find a specific value for a specific entity, they might scan from the row and column headers. This finds cells based on those headers. Like column cells by header text, it only uses the first column with the specified header text (but will handle multiple rows), and supports a header index.
+If a user is trying to find a specific value for a specific entity, they might scan from the row and column headers. This finds cells based on those headers. Like column cells by header text (or regex), it only uses the first column with the specified header text (or regex) (but will handle multiple rows), and supports a header index.
 
 ## Examples
 
@@ -150,7 +154,6 @@ See [example tests](./example/src/SimpleTable.test.js)
 ## Future changes
 
 - Address the first column limitation
-- Allow custom text normalisation/matching
 - Allow Nth cell in a row, rather than just first
 
 ## Development

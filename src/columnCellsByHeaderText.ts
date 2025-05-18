@@ -3,15 +3,16 @@ import { queryAllRows } from './rows'
 import { getColumnIndexByHeaderText } from './utils/columnIndexByHeaderText'
 import { getCellInRowByIndex } from './utils/cellInRowByIndex'
 import { nthHeaderError } from './utils/nthHeaderError'
+import { stringOrRegexError } from './utils/stringOrRegexError'
 
 function queryAllColumnCellsByHeaderText(
   container: HTMLElement,
-  textContent: string,
+  textQuery: string | RegExp,
   headerRowIndex = 0
 ) {
   const cellIndex = getColumnIndexByHeaderText(
     container,
-    textContent,
+    textQuery,
     headerRowIndex
   )
 
@@ -24,18 +25,21 @@ function queryAllColumnCellsByHeaderText(
 
 const getMultipleError = (
   _c: Element | null,
-  textContent: string,
+  textQuery: string | RegExp,
   headerRowIndex = 0
 ) =>
-  `Found multiple cells with ${textContent} in the ${nthHeaderError(
+  `Found mutiple cells ${stringOrRegexError(textQuery)} in the ${nthHeaderError(
     headerRowIndex
   )}`
+
 const getMissingError = (
   _c: Element | null,
-  textContent: string,
+  textQuery: string | RegExp,
   headerRowIndex = 0
 ) =>
-  `Found no rows with ${textContent} in the ${nthHeaderError(headerRowIndex)}`
+  `Found no rows ${stringOrRegexError(textQuery)} in the ${nthHeaderError(
+    headerRowIndex
+  )}`
 
 const [
   queryColumnCellByHeaderText,
