@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        testing-library-version: [8, 9]
+        testing-library-version: [8, 9, 10]
 
     steps:
       - uses: actions/checkout@v2
