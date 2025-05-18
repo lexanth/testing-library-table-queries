@@ -6,7 +6,7 @@ import { getColspan } from './colspan'
 
 export const getColumnIndexByHeaderText = (
   container: HTMLElement,
-  textContent: string,
+  textQuery: string | RegExp,
   headerRowIndex = 0
 ) => {
   const headerCellsByRow = queryAllRowsByRowgroupType(
@@ -21,9 +21,17 @@ export const getColumnIndexByHeaderText = (
   const headerRowToUse = headerCellsByRow[headerRowIndex]
 
   const cellIndex = headerRowToUse.findIndex((cell) => {
-    // TODO - allow normaliser to be overridden
-    return getDefaultNormalizer()(cell.textContent || '') === textContent
+    const cellNormalizedTextContent = getDefaultNormalizer()(
+      cell.textContent || ''
+    )
+
+    if (typeof textQuery === 'string') {
+      return cellNormalizedTextContent === textQuery
+    }
+
+    return textQuery.test(cellNormalizedTextContent)
   })
+
   if (cellIndex === -1) {
     return -1
   }
