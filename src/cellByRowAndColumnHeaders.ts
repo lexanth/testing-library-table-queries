@@ -3,6 +3,7 @@ import { queryAllRowsByFirstCellText } from './rowByFirstCellText'
 import { getColumnIndexByHeaderText } from './utils/columnIndexByHeaderText'
 import { getCellInRowByIndex } from './utils/cellInRowByIndex'
 import { nthHeaderError } from './utils/nthHeaderError'
+import { stringOrRegexError } from './utils/stringOrRegexError'
 
 function queryAllCellsByRowAndColumnHeaders(
   container: HTMLElement,
@@ -29,9 +30,11 @@ const getMultipleError = (
   columnheaderText: string | RegExp,
   headerRowIndex = 0
 ) =>
-  `Found multiple cells with ${rowHeaderText} in the first column and ${columnheaderText} in the ${nthHeaderError(
-    headerRowIndex
-  )}`
+  `Found multiple cells ${stringOrRegexError(
+    rowHeaderText
+  )} in the first column and ${stringOrRegexError(
+    columnheaderText
+  )} in the ${nthHeaderError(headerRowIndex)}`
 
 const getMissingError = (
   _c: Element | null,
@@ -39,9 +42,11 @@ const getMissingError = (
   columnheaderText: string | RegExp,
   headerRowIndex = 0
 ) =>
-  `Found no rows with ${rowHeaderText} in the first column and ${columnheaderText} in the ${nthHeaderError(
-    headerRowIndex
-  )}`
+  `Found no rows ${stringOrRegexError(
+    rowHeaderText
+  )} in the first column and ${stringOrRegexError(
+    columnheaderText
+  )} in the ${nthHeaderError(headerRowIndex)}`
 
 const [
   queryCellByRowAndColumnHeaders,

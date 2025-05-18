@@ -144,7 +144,7 @@ Ignored nodes: comments, script, style
 `)
       expect(() => queries.getCellByRowAndColumnHeaders(container, 'A', 'B'))
         .toThrowErrorMatchingInlineSnapshot(`
-"Found no rows with A in the first column and B in the header
+"Found no rows with A in the first column and with B in the header
 
 [36m<div>[39m
   [36m<div />[39m
@@ -152,7 +152,7 @@ Ignored nodes: comments, script, style
 `)
       expect(() => queries.getCellByRowAndColumnHeaders(container, 'A', 'B', 1))
         .toThrowErrorMatchingInlineSnapshot(`
-"Found no rows with A in the first column and B in the 2nd header
+"Found no rows with A in the first column and with B in the 2nd header
 
 [36m<div>[39m
   [36m<div />[39m

@@ -3,6 +3,7 @@ import { queryAllRows } from './rows'
 import { getColumnIndexByHeaderText } from './utils/columnIndexByHeaderText'
 import { getCellInRowByIndex } from './utils/cellInRowByIndex'
 import { nthHeaderError } from './utils/nthHeaderError'
+import { stringOrRegexError } from './utils/stringOrRegexError'
 
 function queryAllColumnCellsByHeaderText(
   container: HTMLElement,
@@ -26,31 +27,19 @@ const getMultipleError = (
   _c: Element | null,
   textQuery: string | RegExp,
   headerRowIndex = 0
-) => {
-  if (typeof textQuery === 'string') {
-    return `Found multiple cells with ${textQuery} in the ${nthHeaderError(
-      headerRowIndex
-    )}`
-  }
-  return `Found multiple cells matching ${textQuery} in the ${nthHeaderError(
+) =>
+  `Found mutiple cells ${stringOrRegexError(textQuery)} in the ${nthHeaderError(
     headerRowIndex
   )}`
-}
 
 const getMissingError = (
   _c: Element | null,
   textQuery: string | RegExp,
   headerRowIndex = 0
-) => {
-  if (typeof textQuery === 'string') {
-    return `Found no rows with ${textQuery} in the ${nthHeaderError(
-      headerRowIndex
-    )}`
-  }
-  return `Found no rows matching ${textQuery} in the ${nthHeaderError(
+) =>
+  `Found no rows ${stringOrRegexError(textQuery)} in the ${nthHeaderError(
     headerRowIndex
   )}`
-}
 
 const [
   queryColumnCellByHeaderText,
